@@ -7,9 +7,9 @@ sudo service apache2 restart
 sudo nano /etc/apache2/sites-available/osnove_mysql.conf
 
 # U osnove_mysql.conf dodati konfiguraciju ispod
-#<VirtualHost *:80>
+# <VirtualHost *:80>
 #     ServerAdmin algebra@localhost
-#     DocumentRoot /var/www  
+#     DocumentRoot /var/www
 
 #     ErrorLog ${APACHE_LOG_DIR}/error.log
 #     CustomLog ${APACHE_LOG_DIR}/access.log combined
