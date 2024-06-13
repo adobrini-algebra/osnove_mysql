@@ -48,3 +48,12 @@ CREATE TABLE IF NOT EXISTS posudba (
     FOREIGN KEY (medij_id) REFERENCES mediji(id)
 )ENGINE=InnoDB;
 
+ALTER TABLE mediji DROP COLUMN zaliha;
+
+CREATE TABLE IF NOT EXISTS film_medij (
+    film_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (film_id) REFERENCES filmovi(id),
+    medij_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (medij_id) REFERENCES mediji(id),
+    zaliha INT NOT NULL
+)
