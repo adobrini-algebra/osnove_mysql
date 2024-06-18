@@ -46,11 +46,12 @@ SELECT format(avg(cijena), 2) AS 'Prosjek cijene formatiran' from cjenik;
 
 SELECT sum(cijena) AS 'Ukupna cijena' from cjenik;
 
-
+-- spoji tablice filmovi i zanrovi kako bi u rezultatu dobio skupljene podatke iz obje tablice
 SELECT f.naslov, f.godina, z.ime AS 'Zanr'
     from filmovi f
     JOIN zanrovi z ON f.zanr_id = z.id;
 
+-- spoji tablice filmovi, zanrovi i cjenik kako bi u rezultatu dobio skupljene podatke iz sve tri tablice
 SELECT f.naslov, f.godina, z.ime AS 'Zanr', c.tip_filma AS 'Tip', c.cijena, c.zakasnina_po_danu AS 'Zakasnina'
     from filmovi f
     JOIN zanrovi z ON f.zanr_id = z.id
