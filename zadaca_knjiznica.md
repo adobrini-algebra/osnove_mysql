@@ -116,3 +116,10 @@ INSERT INTO posudbe (clan_id, kopija_id, datum_posudbe, datum_povrata, zakasnina
 -- nova posudba
 INSERT INTO posudbe (clan_id, kopija_id, datum_posudbe) VALUES (1, 3, '2023-06-05');
 ```
+
+
+### Zadaca:
+#### Napraviti Upite na bazi podataka "knjiznica"
+1. Navedite sve članove koji su posudili knjige, zajedno s naslovima knjiga koje su posudili.
+2. Pronađite članove koji imaju zakašnjele knjige.
+3. Pronađite sve žanrove i broj dostupnih knjiga u svakom žanru.
