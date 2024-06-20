@@ -7,6 +7,8 @@
 - Film se posđuje na rok od jednog dana I ako ga član ne vrati u navedeno vrijeme, zaračunava mu se zakasnina.
 
 ### Dopuna zadace
+- kreirajte novo korisnika u MySQL-u i dajte mu povlastice samo za bazu videoteka
+
 - Svaki film ima zalihu dostupnih kopija po mediju za koji je dostupan
-- Svaka fizicka kopija filma ima svoj jedinstveni identifikacijski broj (barcode) kako bi se mogla pratiti
+- Svaka fizicka kopija filma ima svoj jedinstveni identifikacijski broj (s/n) kako bi se mogla pratiti
 - Clan od jednom moze posuditi vise od jednog filma

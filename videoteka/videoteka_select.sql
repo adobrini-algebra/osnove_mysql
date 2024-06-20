@@ -129,3 +129,8 @@ SELECT c.*, datediff(p.datum_povrata, p.datum_posudbe)-1 AS 'Zakasnina'
     from posudba p 
     JOIN clanovi c ON c.id = p.clan_id
 WHERE datediff(p.datum_povrata, p.datum_posudbe) > 1 OR (p.datum_povrata IS NULL AND datediff(CURRENT_DATE, p.datum_posudbe) > 1);
+
+-- dohvati sve iz filmova, preskoci prva dva zapisa, dohvati sveukupno 3 zapisa
+SELECT * from filmovi LIMIT 2 OFFSET 2;
+
+-- dohvati prosjecnu cijenu filmova s obzirom na ukupnu zalihu filmova 
