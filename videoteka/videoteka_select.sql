@@ -132,5 +132,3 @@ WHERE datediff(p.datum_povrata, p.datum_posudbe) > 1 OR (p.datum_povrata IS NULL
 
 -- dohvati sve iz filmova, preskoci prva dva zapisa, dohvati sveukupno 3 zapisa
 SELECT * from filmovi LIMIT 2 OFFSET 2;
-
--- dohvati prosjecnu cijenu filmova s obzirom na ukupnu zalihu filmova 

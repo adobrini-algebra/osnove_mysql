@@ -18,7 +18,7 @@ BEGIN
         FROM kopija k
         JOIN filmovi f ON k.film_id = f.id
         JOIN mediji m ON k.medij_id = m.id
-        WHERE m.tip = 'DVD' 
+        WHERE m.tip = 'DVD'
             AND k.dostupan = 1
             AND f.naslov = 'Inception'
         GROUP BY f.id
@@ -51,7 +51,7 @@ END $$
 
 DELIMITER ;
 
--- (clan_id, kopija_id)
+-- (clan_id, kopija_id) 
 CALL create_posudba(1, 2);
 
 
@@ -88,16 +88,13 @@ BEGIN
         f.naslov,
         COUNT(k.id) AS 'Broj kopija',
         ROUND(AVG(CASE WHEN k.dostupan = 1 THEN  c.cijena * m.koeficijent END), 2) AS prosjecna_cijena_dostupan,
-        ROUND(AVG(CASE WHEN k.dostupan = 0 THEN c.cijena * m.koeficijent ELSE 0 END), 2) AS prosjecna_cijena_nedostupan
-    FROM
-        kopija k
+        ROUND(AVG(CASE WHEN k.dostupan = 0 THEN c.cijena * m.koeficijent END), 2) AS prosjecna_cijena_nedostupan
+    FROM kopija k
         JOIN filmovi f ON k.film_id = f.id
         JOIN cjenik c ON c.id = f.cjenik_id
         JOIN mediji m ON k.medij_id = m.id
-    GROUP BY
-        f.id
-    ORDER BY
-        f.id;
+    GROUP BY f.id
+    ORDER BY f.id;
 END $$
 
 DELIMITER ;
