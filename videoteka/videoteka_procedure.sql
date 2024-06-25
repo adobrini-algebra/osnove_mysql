@@ -1,7 +1,7 @@
-
+-- procedura za stvaranje nove posudbe
 DELIMITER $$
 
-CREATE PROCEDURE create_posudba(
+CREATE PROCEDURE IF NOT EXISTS create_posudba(
     IN p_clan_id INT UNSIGNED,
     IN p_kopija_id INT UNSIGNED
 )
@@ -14,15 +14,15 @@ BEGIN
 
     -- Ensure the film copy is available
     SELECT count(f.id)
-    INTO v_kolicina
-    FROM kopija k
-    JOIN filmovi f ON k.film_id = f.id
-    JOIN mediji m ON k.medij_id = m.id
-    WHERE m.tip = 'DVD' 
-        AND k.dostupan = 1
-        AND f.naslov = 'Inception'
-    GROUP BY f.id
-    FOR UPDATE;
+        INTO v_kolicina
+        FROM kopija k
+        JOIN filmovi f ON k.film_id = f.id
+        JOIN mediji m ON k.medij_id = m.id
+        WHERE m.tip = 'DVD' 
+            AND k.dostupan = 1
+            AND f.naslov = 'Inception'
+        GROUP BY f.id
+        FOR UPDATE; -- race condition
 
     IF v_kolicina > 0 THEN
         -- Insert the new borrowing record
@@ -51,6 +51,56 @@ END $$
 
 DELIMITER ;
 
-
 -- (clan_id, kopija_id)
 CALL create_posudba(1, 2);
+
+
+
+
+
+-- procedura za popravak stanja dostupnih kopija filma u odnosu na posudbe
+DELIMITER $$
+
+CREATE PROCEDURE IF NOT EXISTS update_kopija()
+BEGIN
+    UPDATE kopija
+    SET dostupan = 0
+    WHERE id IN (
+        SELECT kopija_id
+        FROM posudba_kopija
+    );
+END $$
+
+DELIMITER ;
+
+CALL update_kopija();
+
+
+
+
+
+-- procedura za ispis prosjecne cijene filma
+DELIMITER $$
+
+CREATE PROCEDURE IF NOT EXISTS calculate_prosjecna_cijena()
+BEGIN
+    SELECT
+        f.naslov,
+        COUNT(k.id) AS 'Broj kopija',
+        ROUND(AVG(CASE WHEN k.dostupan = 1 THEN  c.cijena * m.koeficijent END), 2) AS prosjecna_cijena_dostupan,
+        ROUND(AVG(CASE WHEN k.dostupan = 0 THEN c.cijena * m.koeficijent ELSE 0 END), 2) AS prosjecna_cijena_nedostupan
+    FROM
+        kopija k
+        JOIN filmovi f ON k.film_id = f.id
+        JOIN cjenik c ON c.id = f.cjenik_id
+        JOIN mediji m ON k.medij_id = m.id
+    GROUP BY
+        f.id
+    ORDER BY
+        f.id;
+END $$
+
+DELIMITER ;
+
+CALL calculate_prosjecna_cijena();
+
